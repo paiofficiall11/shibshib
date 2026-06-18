@@ -1,0 +1,281 @@
+@import 'tailwindcss';
+
+/* =========================================================================
+   ShibShib — "Brutalist Editorial" design system
+   Modeled on the WorkLabX aesthetic: paper background, 2px black borders,
+   hard offset shadows, sharp corners, strict orange / black / white palette.
+   ========================================================================= */
+
+@theme {
+  --font-display: 'Syne', ui-sans-serif, system-ui, sans-serif;
+  --font-body: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  --color-paper: #f6f6f4;
+  --color-ink: #0a0a0a;
+  --color-orange: #ff5c00;
+  --color-orange-hover: #ff7a2e;
+}
+
+:root {
+  /* Core palette */
+  --paper: #f6f6f4;
+  --ink: #0a0a0a;
+  --white: #ffffff;
+  --orange: #ff5c00;
+  --orange-hover: #ff7a2e;
+  --orange-tint: #fff1e8;
+
+  /* Surfaces (mapped to legacy names so every component keeps working) */
+  --bg-base: #f6f6f4;
+  --bg-surface: #ffffff;
+  --bg-elevated: #ffffff;
+  --bg-overlay: #ffffff;
+  --bg-accent-sub: #fff1e8;
+
+  /* Text */
+  --text-primary: #0a0a0a;
+  --text-secondary: rgba(10, 10, 10, 0.62);
+  --text-tertiary: rgba(10, 10, 10, 0.42);
+  --text-accent: #ff5c00;
+  --text-invert: #ffffff;
+
+  /* Borders — brutalist = solid black 2px */
+  --border-default: #0a0a0a;
+  --border-subtle: rgba(10, 10, 10, 0.14);
+  --border-emphasis: #0a0a0a;
+  --border-accent: #0a0a0a;
+
+  /* Brutalist primitives */
+  --brutal-border: 2px solid #0a0a0a;
+  --brutal-shadow: 6px 6px 0 #0a0a0a;
+  --brutal-shadow-hover: 8px 8px 0 #0a0a0a;
+  --brutal-shadow-sm: 4px 4px 0 #0a0a0a;
+
+  /* Semantic (kept minimal, brutalist-flat) */
+  --success: #1a8f3c;
+  --success-sub: #e6f5ea;
+  --warning: #b46a00;
+  --warning-sub: #fff1d9;
+  --danger: #c81e1e;
+  --danger-sub: #fbe7e7;
+  --info: #1d4ed8;
+  --info-sub: #e6ecfb;
+
+  /* Legacy aliases still referenced in a few spots */
+  --gold: #ff5c00;
+  --gold-sub: #fff1e8;
+  --orange-glow: rgba(255, 92, 0, 0.18);
+}
+
+/* NOTE: do NOT add an unlayered `* { margin:0; padding:0 }` reset here.
+   Tailwind v4 Preflight already resets these inside `@layer base`, and an
+   unlayered rule would override every layered `p-*`/`m-*` utility site-wide. */
+
+html {
+  scroll-behavior: smooth;
+  background-color: var(--paper);
+}
+
+body {
+  background-color: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: var(--orange);
+  color: #ffffff;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--paper);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--ink);
+  border: 2px solid var(--paper);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--orange);
+}
+
+/* ----------------------------------------------------- Brutalist utilities */
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+.text-balance {
+  text-wrap: balance;
+}
+
+.brutal-border {
+  border: var(--brutal-border);
+}
+
+.brutal-card {
+  background: var(--white);
+  border: var(--brutal-border);
+  border-radius: 4px;
+  box-shadow: var(--brutal-shadow);
+}
+
+.brutal-shadow {
+  box-shadow: var(--brutal-shadow);
+}
+.brutal-shadow-sm {
+  box-shadow: var(--brutal-shadow-sm);
+}
+
+/* Faint grid lines for section backgrounds */
+.grid-lines {
+  background-image:
+    linear-gradient(to right, rgba(10, 10, 10, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(10, 10, 10, 0.05) 1px, transparent 1px);
+  background-size: 56px 56px;
+}
+.grid-lines-dark {
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+  background-size: 56px 56px;
+}
+
+/* Hero backdrop */
+.hero-bg {
+  background-color: var(--paper);
+}
+
+/* Duotone clamp for any photo so it never breaks the strict palette */
+.duotone {
+  filter: grayscale(1) contrast(1.12);
+}
+.duotone-wrap {
+  position: relative;
+}
+.duotone-wrap::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  mix-blend-mode: screen;
+  background: linear-gradient(135deg, #0a0a0a 0%, #ff5c00 100%);
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+/* The claim card — the page's hero surface */
+.claim-card {
+  background: var(--white);
+  border: var(--brutal-border);
+  border-radius: 4px;
+  box-shadow: var(--brutal-shadow);
+  transition: box-shadow 0.25s ease;
+}
+.claim-card.success {
+  box-shadow: var(--brutal-shadow);
+}
+
+/* Marquee */
+.marquee-container {
+  overflow: hidden;
+  white-space: nowrap;
+}
+.marquee-content {
+  display: inline-block;
+  animation: marquee 38s linear infinite;
+}
+
+/* Brutalist badge / pill */
+.badge-base {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  border-radius: 2px;
+  padding: 3px 10px;
+  border: var(--brutal-border);
+}
+.badge-live {
+  background: var(--orange);
+  color: #ffffff;
+}
+.badge-upcoming {
+  background: var(--white);
+  color: var(--ink);
+}
+.badge-ended {
+  background: var(--paper);
+  color: var(--ink);
+}
+.badge-bsc {
+  background: var(--white);
+  color: var(--ink);
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+@keyframes orangePulse {
+  0%,
+  100% {
+    box-shadow: var(--brutal-shadow);
+  }
+  50% {
+    box-shadow: var(--brutal-shadow-hover);
+  }
+}
+
+/* Accordion (base-ui Panel) open/close — keyframes referenced by the FAQ. */
+@keyframes accordion-down {
+  from {
+    height: 0;
+    opacity: 0;
+  }
+  to {
+    height: var(--accordion-panel-height);
+    opacity: 1;
+  }
+}
+@keyframes accordion-up {
+  from {
+    height: var(--accordion-panel-height);
+    opacity: 1;
+  }
+  to {
+    height: 0;
+    opacity: 0;
+  }
+}
+.animate-accordion-down {
+  animation: accordion-down 0.22s ease-out;
+}
+.animate-accordion-up {
+  animation: accordion-up 0.18s ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .marquee-content {
+    animation: none;
+  }
+}
