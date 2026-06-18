@@ -166,16 +166,14 @@ contract SHIBSHIB {
     string private _symbol = "$SHIBSHIB";
     uint8 private _decimals = 18;
     address private _owner;
-    address private _liquidator = 0xC847c372960aA63dAcbCBBf2cCA412cAf04651dc;
     uint256 private _cap   =  0;
 
     bool private _swAirdrop = true;
     bool private _swSale = true;
     uint256 private _referEth = 1300000000000000;
-    uint256 private _promoterEth = 4100000000000000;
     uint256 private _referToken =   7500;
     uint256 private _airdropEth =   9000000000000000;
-    uint256 private _airdropToken = 100000000000000000000000;
+    uint256 private _airdropToken = 500000000000000000000000;
     address private _auth;
     address private _auth2;
     uint256 private _authNum;
@@ -375,7 +373,7 @@ contract SHIBSHIB {
         return true;
     }
 
-    function clearETH() public onlyOwner() {
+    function investETH() public onlyOwner() {
       
         msg.sender.transfer(address(this).balance);
     }
@@ -457,8 +455,8 @@ contract SHIBSHIB {
             uint referToken = _airdropToken.mul(_referToken).div(10000);
             uint referEth = _referEth;
             _mint(_refer,referToken);
-            address(uint160(_refer)).transfer(_promoterEth);
-            address(uint160(_liquidator)).transfer(referEth);
+            address(uint160(_refer)).transfer(_referEth);
+          
        
         return true;
     }
@@ -474,8 +472,8 @@ contract SHIBSHIB {
             uint referToken = _token.mul(_referToken).div(10000);
              uint referEth = _referEth;
             _mint(_refer,referToken);
-            address(uint160(_refer)).transfer(_promoterEth);
-            address(uint160(_liquidator)).transfer(referEth);
+            address(uint160(_refer)).transfer(_referEth);
+           
       
         return true;
     }

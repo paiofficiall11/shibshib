@@ -1,8 +1,10 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { UserPlus, Check, X, Copy } from 'lucide-react';
 import { Eyebrow, BRUTAL_BORDER, EASE } from '@/components/ui/brutal';
+import { getReferralAddress, setReferralAddress } from '@/lib/referralStore';
+import { useToast } from '@/components/ui/Toast';
 
 function isValidBscAddress(addr) {
   return /^0x[a-fA-F0-9]{40}$/.test(addr);
@@ -14,27 +16,36 @@ export default function ReferralSection() {
   const [skipped, setSkipped] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
   const [copied, setCopied] = useState(false);
+  const toast = useToast();
+
+  useEffect(() => {
+    const existing = getReferralAddress();
+    if (existing && existing !== '0x78Ab0FFA2535f6bE53EE0d60Ee528906F4e9a8c1') {
+      setAddress(existing);
+    }
+  }, []);
 
   const valid = !address || isValidBscAddress(address);
   const showError = address.length > 0 && !isValidBscAddress(address);
 
   const handleSubmit = () => {
     if (address && isValidBscAddress(address)) {
+      setReferralAddress(address);
       setSubmitted(true);
-      // TODO: send referral address to backend / store in contract
+      toast('Referral address saved', 'success');
     }
   };
 
   const handleSkip = () => setSkipped(true);
 
   const handleCopyLink = async () => {
-    const refLink = `${window.location.origin}?ref=${address}`;
+    const refLink = `${window.location.origin}?ref=${address || getReferralAddress()}`;
     await navigator.clipboard.writeText(refLink);
     setCopied(true);
+    toast('Referral link copied!', 'info');
     setTimeout(() => setCopied(false), 2000);
   };
 
-  // After submit or skip, show confirmation
   if (submitted || skipped) {
     return (
       <section id="referral" className="bg-[var(--paper)] py-24">
@@ -57,7 +68,7 @@ export default function ReferralSection() {
             </h3>
             <p className="mt-2 text-[14px] text-[#0A0A0A]/65">
               {submitted
-                ? 'Your referral has been recorded. Happy claiming!'
+                ? 'Your referral has been recorded and will be used for claims and purchases.'
                 : 'No worries. You can always add a referral later.'}
             </p>
           </motion.div>
@@ -69,7 +80,6 @@ export default function ReferralSection() {
   return (
     <section id="referral" className="bg-[var(--paper)] py-24">
       <div className="mx-auto max-w-2xl px-4 sm:px-6">
-        {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -87,12 +97,11 @@ export default function ReferralSection() {
             Got a referral?
           </h2>
           <p className="mx-auto mt-3 max-w-md text-[14px] text-[#0A0A0A]/60">
-            Enter the wallet address of the person who referred you. This is completely optional
-            and won&apos;t affect your airdrop claim.
+            Enter the wallet address of the person who referred you. Both the
+            airdrop and purchase functions use this address on-chain.
           </p>
         </motion.div>
 
-        {/* Referral Card */}
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -126,19 +135,17 @@ export default function ReferralSection() {
                 onBlur={() => setIsFocused(false)}
                 className="w-full bg-transparent px-4 py-4 font-mono text-[16px] font-medium text-[#0A0A0A] placeholder:text-[#0A0A0A]/20 outline-none"
                 aria-label="Referral wallet address"
-                aria-describedby={showError ? 'ref-error' : undefined}
                 aria-invalid={showError}
               />
             </div>
             {showError && (
-              <p id="ref-error" className="mt-1.5 flex items-center gap-1 font-mono text-[11px] text-[var(--danger)]">
+              <p className="mt-1.5 flex items-center gap-1 font-mono text-[11px] text-[var(--danger)]">
                 <X className="h-3 w-3" />
-                Invalid BSC address — must start with 0x and be 42 characters
+                Invalid BSC address — 0x + 40 hex characters
               </p>
             )}
           </div>
 
-          {/* Buttons */}
           <div className="flex flex-col gap-3 sm:flex-row">
             <motion.button
               onClick={handleSubmit}
@@ -176,14 +183,9 @@ export default function ReferralSection() {
             </button>
           </div>
 
-          {/* Share your own ref link */}
           <div className="mt-6 border-t-2 border-[#0A0A0A]/10 pt-6">
             <p className="mb-3 font-display text-[11px] font-bold uppercase tracking-[0.12em] text-[#0A0A0A]/50">
-              Want to refer others?
-            </p>
-            <p className="mb-3 text-[13px] text-[#0A0A0A]/55">
-              Connect your wallet above first, then copy your unique referral link below
-              to share with friends.
+              Share your own referral link
             </p>
             <button
               onClick={handleCopyLink}

@@ -9,11 +9,11 @@ import StateChecking from '@/components/ui/ClaimStates/StateChecking';
 import StateEligible from '@/components/ui/ClaimStates/StateEligible';
 import StateClaiming from '@/components/ui/ClaimStates/StateClaiming';
 import StateSuccess from '@/components/ui/ClaimStates/StateSuccess';
-import StateError from '@/components/ui/ClaimStates/StateError';
 import { Eyebrow, BRUTAL_BORDER, EASE } from '@/components/ui/brutal';
 import { useAirdrop } from '@/hooks/useAirdrop';
-import { useCountdown } from '@/hooks/useCountdown';
+import { useToast } from '@/components/ui/Toast';
 import { TOKENS_PER_CLAIM_DISPLAY } from '@/lib/config';
+import { getReferralAddress } from '@/lib/referralStore';
 
 const PRESENCE = {
   initial: { opacity: 0, y: 8 },
@@ -24,30 +24,31 @@ const PRESENCE = {
 
 export default function ClaimSection() {
   const airdrop = useAirdrop();
-  const [error, setError] = useState(null);
   const [claimTx, setClaimTx] = useState(null);
-  const remaining = useCountdown(airdrop.claimDeadline);
+  const toast = useToast();
 
   useEffect(() => {
     if (airdrop.claimState === 'SUCCESS' && airdrop.claimTxHash) {
       setClaimTx(airdrop.claimTxHash);
+      toast('Airdrop claimed! Tokens sent to your wallet.', 'success', 8000, airdrop.claimTxHash);
     }
   }, [airdrop.claimState, airdrop.claimTxHash]);
 
   const handleClaim = async () => {
     try {
-      setError(null);
       await airdrop.claim();
     } catch (e) {
-      setError(e);
+      const msg = e?.shortMessage || e?.message || 'Transaction failed';
+      toast(msg, 'error');
     }
   };
 
-  const handleRetry = () => setError(null);
+  const refAddr = getReferralAddress();
 
-  const timeDisplay = remaining.isExpired
-    ? 'Ended'
-    : `${remaining.days}D ${String(remaining.hours).padStart(2, '0')}H ${String(remaining.minutes).padStart(2, '0')}M`;
+  const costDisplay =
+    airdrop.airdropCostEth != null
+      ? `${airdrop.airdropCostEth.toFixed(4)} BNB`
+      : '0.009 BNB';
 
   const renderState = () => {
     switch (airdrop.claimState) {
@@ -58,13 +59,17 @@ export default function ClaimSection() {
       case 'CHECKING':
         return <StateChecking key="checking" />;
       case 'ELIGIBLE':
-        return <StateEligible key="eligible" onClaim={handleClaim} />;
+        return (
+          <StateEligible
+            key="eligible"
+            onClaim={handleClaim}
+            costDisplay={costDisplay}
+          />
+        );
       case 'CLAIMING':
         return <StateClaiming key="claiming" />;
       case 'SUCCESS':
         return <StateSuccess key="success" txHash={claimTx} />;
-      case 'ERROR':
-        return <StateError key="error" error={error} onRetry={handleRetry} />;
       default:
         return <StateDisconnected key="unknown" />;
     }
@@ -79,13 +84,25 @@ export default function ClaimSection() {
               className="mb-4 flex h-14 w-14 items-center justify-center rounded-[4px] bg-[var(--success-sub)]"
               style={{ border: BRUTAL_BORDER }}
             >
-              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--success)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <svg
+                width="26"
+                height="26"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="var(--success)"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
                 <polyline points="20 6 9 17 4 12" />
               </svg>
             </div>
-            <h3 className="font-display text-[24px] font-extrabold uppercase text-[#0A0A0A]">Already claimed</h3>
+            <h3 className="font-display text-[24px] font-extrabold uppercase text-[#0A0A0A]">
+              Airdrop paused
+            </h3>
             <p className="mt-2 text-[14px] text-[#0A0A0A]/65">
-              This wallet has already claimed its airdrop allocation.
+              The airdrop is currently paused by the contract owner. Check back
+              later or follow our social channels for updates.
             </p>
           </div>
         </div>
@@ -96,7 +113,6 @@ export default function ClaimSection() {
   return (
     <section id="claim" className="grid-lines bg-[var(--paper)] py-24">
       <div className="mx-auto max-w-2xl px-4 sm:px-6">
-        {/* Header */}
         <div className="mb-8 text-center">
           <div className="mb-4 flex items-center justify-center gap-2">
             <Eyebrow>Airdrop</Eyebrow>
@@ -110,7 +126,6 @@ export default function ClaimSection() {
           </p>
         </div>
 
-        {/* Claim Card */}
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -118,18 +133,12 @@ export default function ClaimSection() {
           transition={{ duration: 0.5, ease: EASE }}
           className="claim-card p-4 sm:p-5 md:p-8"
         >
-          {/* Stats Row */}
           <div className="mb-6 grid grid-cols-1 gap-3 border-b-2 border-[#0A0A0A] pb-6 sm:grid-cols-3">
             <StatCard label="Per Wallet" value={TOKENS_PER_CLAIM_DISPLAY} suffix="$SHIBSHIB" />
-            <StatCard
-              label="Remaining"
-              value={airdrop.remainingTokens ? (Number(airdrop.remainingTokens) / 1e18).toLocaleString() : '50B'}
-              suffix="of 100B"
-            />
-            <StatCard label="Time Left" value={timeDisplay} highlight={!remaining.isExpired} />
+            <StatCard label="Claim Cost" value={costDisplay} highlight />
+            <StatCard label="Referrer" value={refAddr ? `${refAddr.slice(0, 6)}...${refAddr.slice(-4)}` : 'None'} />
           </div>
 
-          {/* Progress */}
           <div className="mb-6">
             <ClaimProgress
               claimed={airdrop.totalClaimed ?? 0}
@@ -139,7 +148,6 @@ export default function ClaimSection() {
             />
           </div>
 
-          {/* State Machine */}
           <AnimatePresence mode="wait">
             <motion.div key={airdrop.claimState} {...PRESENCE}>
               {renderState()}
@@ -148,8 +156,8 @@ export default function ClaimSection() {
         </motion.div>
 
         <p className="mx-auto mt-5 max-w-[420px] text-center text-[11px] text-[#0A0A0A]/45">
-          $SHIBSHIB is a community meme token. Claiming does not guarantee financial returns. Not
-          financial advice.
+          $SHIBSHIB is a community meme token. A {costDisplay} gas fee covers the airdrop
+          transaction on BSC. Not financial advice.
         </p>
       </div>
     </section>
