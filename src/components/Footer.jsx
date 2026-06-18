@@ -32,7 +32,7 @@ export default function Footer() {
               <img
                 src="/logo.png"
                 alt="ShibShib"
-                className="h-10 w-10 rounded-[4px] object-contain"
+                className="h-10 w-10 rounded-full object-contain"
                 style={{ border: '2px solid #FFFFFF' }}
               />
               <span className="font-display text-[18px] font-extrabold uppercase tracking-tight">

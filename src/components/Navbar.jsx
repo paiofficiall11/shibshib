@@ -102,7 +102,7 @@ export default function Navbar() {
             <img
               src="/logo.png"
               alt="ShibShib"
-              className="h-9 w-9 rounded-[4px] object-contain"
+              className="h-9 w-9 rounded-full object-contain"
               style={{ border: BRUTAL_BORDER }}
             />
             <span className="font-display text-[17px] font-extrabold uppercase tracking-tight text-[#0A0A0A]">

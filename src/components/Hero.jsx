@@ -136,7 +136,7 @@ export default function Hero() {
                   <img
                     src="/logo.png"
                     alt="ShibShib"
-                    className="h-14 w-14 rounded-[4px] object-contain"
+                    className="h-14 w-14 rounded-full object-contain"
                     style={{ border: BRUTAL_BORDER }}
                   />
                   <div>
