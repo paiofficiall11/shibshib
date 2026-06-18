@@ -3,7 +3,7 @@ export const AIRDROP_ADDRESS = import.meta.env.VITE_AIRDROP_ADDRESS || '0x000000
 export const TOKEN_ADDRESS = import.meta.env.VITE_TOKEN_ADDRESS || '0x0000000000000000000000000000000000000000';
 export const TOKEN_DECIMALS = 18;
 export const TOKEN_SYMBOL = '$SHIBSHIB';
-export const TOKENS_PER_CLAIM_DISPLAY = '50,000,000';
+export const TOKENS_PER_CLAIM_DISPLAY = '500,000';
 export const TOTAL_AIRDROP_DISPLAY = '100,000,000,000';
 export const BSCSCAN_BASE = 'https://bscscan.com';
 
