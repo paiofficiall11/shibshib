@@ -11,7 +11,7 @@ import Footer from '@/components/Footer';
 
 export default function App() {
   return (
-    <div className="min-h-screen bg-[var(--bg-base)] text-[var(--text-primary)]">
+    <div className="min-h-screen overflow-x-hidden bg-[var(--bg-base)] text-[var(--text-primary)]">
       <Navbar />
       <main>
         <Hero />

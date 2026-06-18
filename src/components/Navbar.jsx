@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { Link } from 'react-scroll';
@@ -54,7 +54,7 @@ function WalletButton() {
               className="h-3 w-3 rounded-full border-2 border-[#0A0A0A]"
               style={{ background: `hsl(${parseInt(account.address.slice(2, 10), 16) % 360}, 80%, 55%)` }}
             />
-            <span className="font-mono text-[13px] font-medium text-[#0A0A0A]">
+            <span className="max-w-[120px] truncate font-mono text-[13px] font-medium text-[#0A0A0A]">
               {account.displayName}
             </span>
           </button>
@@ -68,11 +68,25 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
+  const closeMobile = useCallback(() => setMobileOpen(false), []);
+
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
+
+  useEffect(() => {
+    const onKey = (e) => { if (e.key === 'Escape') closeMobile(); };
+    if (mobileOpen) {
+      document.addEventListener('keydown', onKey);
+      document.body.style.overflow = 'hidden';
+      return () => {
+        document.removeEventListener('keydown', onKey);
+        document.body.style.overflow = '';
+      };
+    }
+  }, [mobileOpen, closeMobile]);
 
   return (
     <>
@@ -85,12 +99,12 @@ export default function Navbar() {
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
           {/* Brand */}
           <Link to="hero" smooth spy className="flex cursor-pointer items-center gap-2.5">
-            <span
-              className="flex h-9 w-9 items-center justify-center rounded-[4px] bg-[var(--orange)] font-display text-[18px] font-extrabold text-white"
+            <img
+              src="/logo.png"
+              alt="ShibShib"
+              className="h-9 w-9 rounded-[4px] object-contain"
               style={{ border: BRUTAL_BORDER }}
-            >
-              S
-            </span>
+            />
             <span className="font-display text-[17px] font-extrabold uppercase tracking-tight text-[#0A0A0A]">
               Shib<span className="text-[var(--orange)]">shib</span>
             </span>
@@ -120,9 +134,10 @@ export default function Navbar() {
           {/* Mobile toggle */}
           <button
             onClick={() => setMobileOpen((v) => !v)}
-            className="flex h-10 w-10 items-center justify-center rounded-[4px] bg-white md:hidden"
+            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[4px] bg-white md:hidden"
             style={{ border: BRUTAL_BORDER }}
-            aria-label="Toggle menu"
+            aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
+            aria-expanded={mobileOpen}
           >
             <div className="flex w-5 flex-col gap-1">
               <span className={`block h-0.5 bg-[#0A0A0A] transition-all ${mobileOpen ? 'translate-y-1.5 rotate-45' : ''}`} />
@@ -155,7 +170,7 @@ export default function Navbar() {
                   smooth
                   spy
                   offset={-80}
-                  onClick={() => setMobileOpen(false)}
+                  onClick={closeMobile}
                   className="block cursor-pointer rounded-[4px] bg-white p-4 font-display font-bold uppercase tracking-wide text-[#0A0A0A]"
                   style={{ border: BRUTAL_BORDER }}
                 >

@@ -73,7 +73,7 @@ export default function ClaimSection() {
   if (airdrop.claimState === 'CLAIMED') {
     return (
       <section id="claim" className="bg-[var(--paper)] py-24">
-        <div className="mx-auto max-w-2xl px-6">
+        <div className="mx-auto max-w-2xl px-4 sm:px-6">
           <div className="claim-card flex flex-col items-center px-8 py-14 text-center">
             <div
               className="mb-4 flex h-14 w-14 items-center justify-center rounded-[4px] bg-[var(--success-sub)]"
@@ -95,7 +95,7 @@ export default function ClaimSection() {
 
   return (
     <section id="claim" className="grid-lines bg-[var(--paper)] py-24">
-      <div className="mx-auto max-w-2xl px-6">
+      <div className="mx-auto max-w-2xl px-4 sm:px-6">
         {/* Header */}
         <div className="mb-8 text-center">
           <div className="mb-4 flex items-center justify-center gap-2">
@@ -116,10 +116,10 @@ export default function ClaimSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, ease: EASE }}
-          className="claim-card p-5 md:p-8"
+          className="claim-card p-4 sm:p-5 md:p-8"
         >
           {/* Stats Row */}
-          <div className="mb-6 grid grid-cols-3 gap-3 border-b-2 border-[#0A0A0A] pb-6">
+          <div className="mb-6 grid grid-cols-1 gap-3 border-b-2 border-[#0A0A0A] pb-6 sm:grid-cols-3">
             <StatCard label="Per Wallet" value={TOKENS_PER_CLAIM_DISPLAY} suffix="$SHIBSHIB" />
             <StatCard
               label="Remaining"

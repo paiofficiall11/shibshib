@@ -1,0 +1,430 @@
+- generic [ref=e4]:
+  - banner [ref=e5]:
+    - generic [ref=e6]:
+      - generic [ref=e7] [cursor=pointer]:
+        - generic [ref=e8]: S
+        - generic [ref=e9]: Shibshib
+      - navigation [ref=e10]:
+        - generic [ref=e11] [cursor=pointer]: About
+        - generic [ref=e12] [cursor=pointer]: Tokenomics
+        - generic [ref=e13] [cursor=pointer]: Roadmap
+        - generic [ref=e14] [cursor=pointer]: FAQ
+      - button "Connect Wallet" [ref=e16]
+  - main [ref=e17]:
+    - region "Hero" [ref=e18]:
+      - generic [ref=e20]:
+        - generic [ref=e21]:
+          - generic [ref=e22]:
+            - generic [ref=e23]: Airdrop live
+            - generic [ref=e25]: BSC · BEP-20
+          - heading "Claim your free $SHIBSHIB." [level=1] [ref=e26]:
+            - generic [ref=e28]: Claim your
+            - generic [ref=e30]: free
+            - generic [ref=e32]: $SHIBSHIB.
+          - paragraph [ref=e33]: 50,000,000 tokens per wallet, claimed straight to your address before the PancakeSwap launch. One wallet. One chance. Zero fees.
+          - generic [ref=e34]:
+            - button "Claim $SHIBSHIB" [ref=e36] [cursor=pointer]:
+              - img [ref=e37]
+              - text: Claim $SHIBSHIB
+            - button "View tokenomics" [ref=e40] [cursor=pointer]
+          - generic [ref=e41]:
+            - generic [ref=e42]:
+              - generic [ref=e43]: 1T
+              - generic [ref=e44]: Total supply
+            - generic [ref=e45]:
+              - generic [ref=e46]: 50%
+              - generic [ref=e47]: Burned at launch
+            - generic [ref=e48]:
+              - generic [ref=e49]: $0
+              - generic [ref=e50]: Claim fee
+        - generic [ref=e51]:
+          - generic [ref=e53]:
+            - generic [ref=e54]:
+              - generic [ref=e55]: Airdrop ticket
+              - generic [ref=e56]: Live
+            - generic [ref=e57]:
+              - generic [ref=e58]: S
+              - generic [ref=e59]:
+                - generic [ref=e60]: ShibShib
+                - generic [ref=e61]: The dog that barks twice
+            - generic [ref=e62]:
+              - generic [ref=e63]: Your allocation
+              - generic [ref=e64]: 50,000,000
+              - generic [ref=e65]: $SHIBSHIB
+            - generic [ref=e70]:
+              - generic [ref=e71]:
+                - generic [ref=e72]: Network
+                - generic [ref=e73]: BNB Smart Chain
+              - generic [ref=e74]:
+                - generic [ref=e75]: Standard
+                - generic [ref=e76]: BEP-20
+              - generic [ref=e77]:
+                - generic [ref=e78]: Per wallet
+                - generic [ref=e79]: 1 claim
+              - generic [ref=e80]:
+                - generic [ref=e81]: Gas fee
+                - generic [ref=e82]: ~$0.01
+          - generic [ref=e83]: Free mint
+      - generic [ref=e84]:
+        - generic [ref=e85]: Scroll to claim
+        - img [ref=e87]
+    - generic [ref=e90]:
+      - generic [ref=e91]:
+        - generic [ref=e92]:
+          - generic [ref=e93]: $SHIBSHIB
+          - generic [ref=e94]: /
+        - generic [ref=e95]:
+          - generic [ref=e96]: AIRDROP LIVE
+          - generic [ref=e97]: /
+        - generic [ref=e98]:
+          - generic [ref=e99]: 50B TOKENS REMAINING
+          - generic [ref=e100]: /
+        - generic [ref=e101]:
+          - generic [ref=e102]: 1T SUPPLY
+          - generic [ref=e103]: /
+        - generic [ref=e104]:
+          - generic [ref=e105]: 50% BURNED
+          - generic [ref=e106]: /
+        - generic [ref=e107]:
+          - generic [ref=e108]: BSC
+          - generic [ref=e109]: /
+        - generic [ref=e110]:
+          - generic [ref=e111]: PANCAKESWAP SOON
+          - generic [ref=e112]: /
+        - generic [ref=e113]:
+          - generic [ref=e114]: FREE TO CLAIM
+          - generic [ref=e115]: /
+      - generic [ref=e116]:
+        - generic [ref=e117]:
+          - generic [ref=e118]: $SHIBSHIB
+          - generic [ref=e119]: /
+        - generic [ref=e120]:
+          - generic [ref=e121]: AIRDROP LIVE
+          - generic [ref=e122]: /
+        - generic [ref=e123]:
+          - generic [ref=e124]: 50B TOKENS REMAINING
+          - generic [ref=e125]: /
+        - generic [ref=e126]:
+          - generic [ref=e127]: 1T SUPPLY
+          - generic [ref=e128]: /
+        - generic [ref=e129]:
+          - generic [ref=e130]: 50% BURNED
+          - generic [ref=e131]: /
+        - generic [ref=e132]:
+          - generic [ref=e133]: BSC
+          - generic [ref=e134]: /
+        - generic [ref=e135]:
+          - generic [ref=e136]: PANCAKESWAP SOON
+          - generic [ref=e137]: /
+        - generic [ref=e138]:
+          - generic [ref=e139]: FREE TO CLAIM
+          - generic [ref=e140]: /
+    - generic [ref=e142]:
+      - generic [ref=e143]:
+        - generic [ref=e144]:
+          - generic [ref=e145]: Airdrop
+          - generic [ref=e146]: Claim your tokens
+        - heading "Your free $SHIBSHIB is waiting." [level=2] [ref=e147]
+        - paragraph [ref=e148]: 50,000,000 tokens per wallet. One claim per address. While supplies last.
+      - generic [ref=e149]:
+        - generic [ref=e150]:
+          - generic [ref=e151]:
+            - text: Per Wallet
+            - generic [ref=e152]:
+              - generic [ref=e153]: 50,000,000
+              - generic [ref=e154]: $SHIBSHIB
+          - generic [ref=e155]:
+            - text: Remaining
+            - generic [ref=e156]:
+              - generic [ref=e157]: 50B
+              - generic [ref=e158]: of 100B
+          - generic [ref=e159]:
+            - text: Time Left
+            - generic [ref=e161]: Ended
+        - generic [ref=e164]:
+          - generic [ref=e165]: Claimed
+          - generic [ref=e166]: 17.55B / 100B
+        - generic [ref=e170]:
+          - button "Connect Wallet" [ref=e171]:
+            - img [ref=e172]
+            - text: Connect Wallet
+          - paragraph [ref=e175]: Connect MetaMask, Trust Wallet, or any WalletConnect wallet to check eligibility.
+      - paragraph [ref=e176]: $SHIBSHIB is a community meme token. Claiming does not guarantee financial returns. Not financial advice.
+    - generic [ref=e178]:
+      - generic [ref=e179]:
+        - generic [ref=e180]: Reference
+        - heading "Token information" [level=2] [ref=e181]
+      - generic [ref=e182]:
+        - generic [ref=e183]:
+          - heading "Token details" [level=3] [ref=e184]
+          - generic [ref=e185]:
+            - generic [ref=e186]:
+              - generic [ref=e187]: Token Name
+              - generic [ref=e188]: ShibShib
+            - generic [ref=e189]:
+              - generic [ref=e190]: Symbol
+              - generic [ref=e191]: $SHIBSHIB
+            - generic [ref=e192]:
+              - generic [ref=e193]: Blockchain
+              - generic [ref=e194]:
+                - generic [ref=e195]: BSC
+                - text: BNB Smart Chain
+            - generic [ref=e196]:
+              - generic [ref=e197]: Standard
+              - generic [ref=e198]: BEP-20
+            - generic [ref=e199]:
+              - generic [ref=e200]: Decimals
+              - generic [ref=e201]: "18"
+            - generic [ref=e202]:
+              - generic [ref=e203]: Total Supply
+              - generic [ref=e204]: 1,000,000,000,000
+            - generic [ref=e205]:
+              - generic [ref=e206]: Contract
+              - button "0x000000...0000" [ref=e209]:
+                - generic [ref=e210]: 0x000000...0000
+                - img [ref=e211]
+        - generic [ref=e214]:
+          - heading "Airdrop details" [level=3] [ref=e215]
+          - generic [ref=e216]:
+            - generic [ref=e217]:
+              - generic [ref=e218]: Status
+              - generic [ref=e220]: Live
+            - generic [ref=e221]:
+              - generic [ref=e222]: Airdrop Pool
+              - generic [ref=e223]: 100,000,000,000 $SHIBSHIB
+            - generic [ref=e224]:
+              - generic [ref=e225]: Per Wallet
+              - generic [ref=e226]: 50,000,000 $SHIBSHIB
+            - generic [ref=e227]:
+              - generic [ref=e228]: Eligible
+              - generic [ref=e229]: 1 per address
+            - generic [ref=e230]:
+              - generic [ref=e231]: Network Fee
+              - generic [ref=e232]: ~$0.01 BNB
+            - generic [ref=e233]:
+              - generic [ref=e234]: DEX Listing
+              - generic [ref=e235]: PancakeSwap (soon)
+            - generic [ref=e236]:
+              - generic [ref=e237]: Claim Deadline
+              - generic [ref=e238]:
+                - generic [ref=e239]:
+                  - generic [ref=e241]: "29"
+                  - generic [ref=e242]: Days
+                - generic [ref=e243]:
+                  - generic [ref=e245]: "23"
+                  - generic [ref=e246]: Hrs
+                - generic [ref=e247]:
+                  - generic [ref=e249]: "59"
+                  - generic [ref=e250]: Min
+                - generic [ref=e251]:
+                  - generic [ref=e252]:
+                    - generic [ref=e253]: "58"
+                    - generic [ref=e254]: "56"
+                  - generic [ref=e255]: Sec
+    - generic [ref=e257]:
+      - generic [ref=e258]:
+        - generic [ref=e259]: Tokenomics
+        - heading "Token distribution" [level=2] [ref=e260]
+      - generic [ref=e261]:
+        - generic [ref=e263]:
+          - img [ref=e264]
+          - generic:
+            - generic: 1T
+            - generic: Supply
+        - generic [ref=e270]:
+          - generic [ref=e271]:
+            - generic [ref=e272]:
+              - generic [ref=e274]: Burn (Dead)
+              - generic [ref=e275]: 50%
+              - generic [ref=e276]: 500,000,000,000
+            - generic [ref=e277]:
+              - generic [ref=e279]: Liquidity
+              - generic [ref=e280]: 30%
+              - generic [ref=e281]: 300,000,000,000
+            - generic [ref=e282]:
+              - generic [ref=e284]: Airdrop
+              - generic [ref=e285]: 10%
+              - generic [ref=e286]: 100,000,000,000
+            - generic [ref=e287]:
+              - generic [ref=e289]: Marketing
+              - generic [ref=e290]: 5%
+              - generic [ref=e291]: 50,000,000,000
+            - generic [ref=e292]:
+              - generic [ref=e294]: Team
+              - generic [ref=e295]: 5%
+              - generic [ref=e296]: 50,000,000,000
+          - generic [ref=e297]:
+            - img [ref=e298]
+            - paragraph [ref=e300]: 50% of supply is burned at deployment — sent to 0x000…dEaD and permanently removed from circulation.
+    - generic [ref=e302]:
+      - generic [ref=e303]:
+        - generic [ref=e305]: How it works
+        - heading "Claim in three steps" [level=2] [ref=e306]
+      - generic [ref=e307]:
+        - generic [ref=e308]:
+          - generic [ref=e309]:
+            - img [ref=e311]
+            - generic [ref=e314]: "01"
+          - heading "Connect your wallet" [level=3] [ref=e315]
+          - paragraph [ref=e316]: Connect MetaMask, Trust Wallet, or any WalletConnect-compatible wallet. Your keys, your tokens — always non-custodial.
+        - generic [ref=e317]:
+          - generic [ref=e318]:
+            - img [ref=e320]
+            - generic [ref=e323]: "02"
+          - heading "Switch to BSC" [level=3] [ref=e324]
+          - paragraph [ref=e325]: Make sure you're on the BNB Smart Chain network. On a different chain? We'll prompt you to switch in one click.
+        - generic [ref=e326]:
+          - generic [ref=e327]:
+            - img [ref=e329]
+            - generic [ref=e331]: "03"
+          - heading "Claim your tokens" [level=3] [ref=e332]
+          - paragraph [ref=e333]: Click Claim, confirm the small gas fee (~$0.01), and 50M $SHIBSHIB land directly in your address.
+    - generic [ref=e335]:
+      - generic [ref=e336]:
+        - generic [ref=e337]: Roadmap
+        - heading "The road to the moon" [level=2] [ref=e338]
+      - generic [ref=e339]:
+        - generic [ref=e344]:
+          - generic [ref=e345]:
+            - generic [ref=e346]: Phase 01
+            - generic [ref=e347]: LIVE
+          - heading "Ignition" [level=3] [ref=e348]
+          - list [ref=e349]:
+            - listitem [ref=e350]:
+              - generic [ref=e352]: Smart contract deployed and verified on BSCScan
+            - listitem [ref=e353]:
+              - generic [ref=e355]: Airdrop claim page live for all eligible wallets
+            - listitem [ref=e356]:
+              - generic [ref=e358]: 50% of total supply burned at deployment
+            - listitem [ref=e359]:
+              - generic [ref=e361]: 5,000 holders milestone
+        - generic [ref=e366]:
+          - generic [ref=e367]:
+            - generic [ref=e368]: Phase 02
+            - generic [ref=e369]: NEXT
+          - heading "Liftoff" [level=3] [ref=e370]
+          - list [ref=e371]:
+            - listitem [ref=e372]:
+              - generic [ref=e374]: PancakeSwap listing with 30% liquidity allocation
+            - listitem [ref=e375]:
+              - generic [ref=e377]: Liquidity locked via team.finance for 12 months
+            - listitem [ref=e378]:
+              - generic [ref=e380]: 10,000 holders milestone reached
+            - listitem [ref=e381]:
+              - generic [ref=e383]: First community burn event following governance vote
+        - generic [ref=e388]:
+          - generic [ref=e389]:
+            - generic [ref=e390]: Phase 03
+            - generic [ref=e391]: SOON
+          - heading "Orbit" [level=3] [ref=e392]
+          - list [ref=e393]:
+            - listitem [ref=e394]:
+              - generic [ref=e396]: CoinMarketCap and CoinGecko listing applications
+            - listitem [ref=e397]:
+              - generic [ref=e399]: CEX exchange listing applications submitted
+            - listitem [ref=e400]:
+              - generic [ref=e402]: Community DAO launched for governance decisions
+            - listitem [ref=e403]:
+              - generic [ref=e405]: Second strategic burn event
+        - generic [ref=e409]:
+          - generic [ref=e410]:
+            - generic [ref=e411]: Phase 04
+            - generic [ref=e412]: SOON
+          - heading "Moon" [level=3] [ref=e413]
+          - list [ref=e414]:
+            - listitem [ref=e415]:
+              - generic [ref=e417]: Cross-chain bridge to Ethereum and Polygon
+            - listitem [ref=e418]:
+              - generic [ref=e420]: ShibShib V2 ecosystem with staking module
+            - listitem [ref=e421]:
+              - generic [ref=e423]: NFT collection for airdrop claimers
+            - listitem [ref=e424]:
+              - generic [ref=e426]: 100,000 holders milestone
+    - generic [ref=e428]:
+      - generic [ref=e429]:
+        - generic [ref=e431]: FAQ
+        - heading "Frequently asked" [level=2] [ref=e432]
+      - region [ref=e434]:
+        - heading "What is $SHIBSHIB?" [level=3] [ref=e436]:
+          - button "What is $SHIBSHIB?" [ref=e437]:
+            - text: What is $SHIBSHIB?
+            - img
+        - heading "Is the airdrop free?" [level=3] [ref=e439]:
+          - button "Is the airdrop free?" [ref=e440]:
+            - text: Is the airdrop free?
+            - img
+        - heading "How many tokens can I claim?" [level=3] [ref=e442]:
+          - button "How many tokens can I claim?" [ref=e443]:
+            - text: How many tokens can I claim?
+            - img
+        - heading "When will $SHIBSHIB be listed on PancakeSwap?" [level=3] [ref=e445]:
+          - button "When will $SHIBSHIB be listed on PancakeSwap?" [ref=e446]:
+            - text: When will $SHIBSHIB be listed on PancakeSwap?
+            - img
+        - heading "Is the smart contract audited?" [level=3] [ref=e448]:
+          - button "Is the smart contract audited?" [ref=e449]:
+            - text: Is the smart contract audited?
+            - img
+        - heading "What wallet do I need?" [level=3] [ref=e451]:
+          - button "What wallet do I need?" [ref=e452]:
+            - text: What wallet do I need?
+            - img
+        - heading "I claimed — where are my tokens?" [level=3] [ref=e454]:
+          - button "I claimed — where are my tokens?" [ref=e455]:
+            - text: I claimed — where are my tokens?
+            - img
+  - contentinfo [ref=e456]:
+    - generic [ref=e457]:
+      - generic [ref=e458]:
+        - generic [ref=e459]:
+          - generic [ref=e460]:
+            - generic [ref=e461]: S
+            - generic [ref=e462]: Shibshib
+          - paragraph [ref=e463]: A fair-launch community meme token on BNB Smart Chain. The dog that barks twice.
+        - generic [ref=e465] [cursor=pointer]: Claim $SHIBSHIB
+      - generic [ref=e466]:
+        - generic [ref=e467]:
+          - heading "Navigate" [level=3] [ref=e468]
+          - list [ref=e469]:
+            - listitem [ref=e470]: About
+            - listitem [ref=e471]: Tokenomics
+            - listitem [ref=e472]: Roadmap
+            - listitem [ref=e473]: Claim Airdrop
+            - listitem [ref=e474]: FAQ
+        - generic [ref=e475]:
+          - heading "Token" [level=3] [ref=e476]
+          - list [ref=e477]:
+            - listitem [ref=e478]:
+              - link "Contract (BSCScan)" [ref=e479] [cursor=pointer]:
+                - /url: https://bscscan.com/token/0x0000000000000000000000000000000000000000
+            - listitem [ref=e480]: PancakeSwap (TBA)
+            - listitem [ref=e481]: CoinGecko (TBA)
+            - listitem [ref=e482]: CMC (TBA)
+        - generic [ref=e483]:
+          - heading "Community" [level=3] [ref=e484]
+          - list [ref=e485]:
+            - listitem [ref=e486]:
+              - link "Twitter / X" [ref=e487] [cursor=pointer]:
+                - /url: https://twitter.com/shibshibtoken
+            - listitem [ref=e488]:
+              - link "Telegram" [ref=e489] [cursor=pointer]:
+                - /url: https://t.me/shibshibarmy
+            - listitem [ref=e490]:
+              - link "GitHub" [ref=e491] [cursor=pointer]:
+                - /url: "#"
+        - generic [ref=e492]:
+          - heading "Disclaimer" [level=3] [ref=e493]
+          - paragraph [ref=e494]: $SHIBSHIB is a community meme token. Nothing here is financial advice. Always do your own research.
+      - generic [ref=e495] [cursor=pointer]: SHIBSHIB
+      - generic [ref=e496]:
+        - paragraph [ref=e497]: © 2026 ShibShib Community. Not financial advice.
+        - generic [ref=e498]:
+          - link "Twitter / X" [ref=e499] [cursor=pointer]:
+            - /url: https://twitter.com/shibshibtoken
+            - img [ref=e500]
+          - link "Telegram" [ref=e503] [cursor=pointer]:
+            - /url: https://t.me/shibshibarmy
+            - img [ref=e504]
+          - link "GitHub" [ref=e507] [cursor=pointer]:
+            - /url: "#"
+            - img [ref=e508]

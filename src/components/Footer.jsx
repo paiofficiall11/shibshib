@@ -29,12 +29,12 @@ export default function Footer() {
         <div className="flex flex-col gap-8 border-b-2 border-white/15 pb-12 lg:flex-row lg:items-end lg:justify-between">
           <div>
             <div className="flex items-center gap-2.5">
-              <span
-                className="flex h-10 w-10 items-center justify-center rounded-[4px] bg-[var(--orange)] font-display text-[20px] font-extrabold text-white"
+              <img
+                src="/logo.png"
+                alt="ShibShib"
+                className="h-10 w-10 rounded-[4px] object-contain"
                 style={{ border: '2px solid #FFFFFF' }}
-              >
-                S
-              </span>
+              />
               <span className="font-display text-[18px] font-extrabold uppercase tracking-tight">
                 Shib<span className="text-[var(--orange)]">shib</span>
               </span>
@@ -135,7 +135,7 @@ export default function Footer() {
           to="hero"
           smooth
           className="block cursor-pointer select-none font-display font-extrabold uppercase leading-[0.8] tracking-tighter text-white"
-          style={{ fontSize: 'clamp(3rem, 15vw, 12rem)' }}
+          style={{ fontSize: 'clamp(2.4rem, 12vw, 12rem)' }}
         >
           SHIB<span className="text-[var(--orange)]">SHIB</span>
         </Link>

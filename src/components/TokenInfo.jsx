@@ -32,7 +32,7 @@ function Row({ label, children }) {
 export default function TokenInfo() {
   return (
     <section id="token" className="bg-[var(--paper)] py-24">
-      <div className="mx-auto max-w-6xl px-6">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <motion.div {...REVEAL} className="mb-12">
           <Eyebrow>Reference</Eyebrow>
           <h2 className="mt-4 font-display text-[clamp(32px,5vw,52px)] font-extrabold uppercase leading-[0.95] tracking-tight text-[#0A0A0A]">

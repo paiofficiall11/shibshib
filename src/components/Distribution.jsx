@@ -53,7 +53,7 @@ export default function Distribution() {
 
   return (
     <section id="tokenomics" className="grid-lines bg-[var(--paper)] py-24">
-      <div className="mx-auto max-w-6xl px-6">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -71,7 +71,7 @@ export default function Distribution() {
           {/* Donut */}
           <div className="flex justify-center">
             <div
-              className="relative flex h-[320px] w-[320px] items-center justify-center rounded-[4px] bg-white p-6"
+              className="relative flex h-[260px] w-[260px] items-center justify-center rounded-[4px] bg-white p-4 sm:h-[320px] sm:w-[320px] sm:p-6"
               style={{ border: BRUTAL_BORDER, boxShadow: '8px 8px 0 #0A0A0A' }}
             >
               <svg viewBox="0 0 200 200" className="h-full w-full">

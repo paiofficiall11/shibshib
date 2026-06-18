@@ -24,7 +24,7 @@ export default function Hero() {
       aria-label="Hero"
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid items-center gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
+        <div className="grid items-center gap-8 sm:gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
           {/* ---- Left: copy ---- */}
           <div>
             <motion.div
@@ -45,7 +45,7 @@ export default function Hero() {
                 <span key={li} className="block overflow-hidden">
                   <motion.span
                     className="block"
-                    style={{ fontSize: 'clamp(2.6rem, 8vw, 5.5rem)', lineHeight: '0.95' }}
+                    style={{ fontSize: 'clamp(2rem, 10vw, 5.5rem)', lineHeight: '0.95' }}
                     initial={reduce ? { y: '0%' } : { y: '110%' }}
                     animate={{ y: '0%' }}
                     transition={{ duration: 0.6, ease: EASE, delay: 0.1 + li * STAGGER }}
@@ -60,7 +60,7 @@ export default function Hero() {
               initial={reduce ? { opacity: 1 } : { opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.5, ease: EASE }}
-              className="mt-6 max-w-md text-lg leading-relaxed text-[#0A0A0A]/70"
+              className="mt-6 max-w-[65ch] text-base sm:text-lg leading-relaxed text-[#0A0A0A]/70"
             >
               {TOKENS_PER_CLAIM_DISPLAY} tokens per wallet, claimed straight to your address before
               the PancakeSwap launch. One wallet. One chance. Zero fees.
@@ -133,12 +133,12 @@ export default function Hero() {
 
                 {/* Logo mark */}
                 <div className="mt-6 flex items-center gap-4">
-                  <span
-                    className="flex h-14 w-14 items-center justify-center rounded-[4px] bg-[var(--orange)] font-display text-[26px] font-extrabold text-white"
+                  <img
+                    src="/logo.png"
+                    alt="ShibShib"
+                    className="h-14 w-14 rounded-[4px] object-contain"
                     style={{ border: BRUTAL_BORDER }}
-                  >
-                    S
-                  </span>
+                  />
                   <div>
                     <div className="font-display text-xl font-extrabold uppercase tracking-tight">ShibShib</div>
                     <div className="font-mono text-xs text-white/50">The dog that barks twice</div>
@@ -157,10 +157,12 @@ export default function Hero() {
                 </div>
 
                 {/* Perforation */}
-                <div className="my-6 flex items-center gap-2">
-                  <span className="h-4 w-4 -ml-9 rounded-full bg-[var(--paper)]" />
-                  <span className="flex-1 border-t-2 border-dashed border-white/25" />
-                  <span className="h-4 w-4 -mr-9 rounded-full bg-[var(--paper)]" />
+                <div className="relative my-6">
+                  <div className="flex items-center gap-2 overflow-hidden">
+                    <span className="h-4 w-4 -ml-7 rounded-full bg-[var(--paper)] sm:-ml-9" />
+                    <span className="flex-1 border-t-2 border-dashed border-white/25" />
+                    <span className="h-4 w-4 -mr-7 rounded-full bg-[var(--paper)] sm:-mr-9" />
+                  </div>
                 </div>
 
                 {/* Meta rows */}
@@ -185,7 +187,7 @@ export default function Hero() {
               initial={reduce ? { opacity: 1 } : { opacity: 0, rotate: -8, scale: 0.8 }}
               animate={{ opacity: 1, rotate: -7, scale: 1 }}
               transition={{ duration: 0.5, delay: 0.7, ease: EASE }}
-              className="absolute -right-3 -top-4 rounded-[4px] bg-white px-3 py-1.5 font-display text-xs font-bold uppercase tracking-wide text-[#0A0A0A]"
+              className="absolute right-0 -top-4 rounded-[4px] bg-white px-3 py-1.5 font-display text-xs font-bold uppercase tracking-wide text-[#0A0A0A] sm:-right-3"
               style={{ border: BRUTAL_BORDER, boxShadow: BRUTAL_SHADOW_SM }}
             >
               Free mint

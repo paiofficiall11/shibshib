@@ -29,7 +29,7 @@ const EASE = [0.22, 1, 0.36, 1];
 export default function HowItWorks() {
   return (
     <section id="about" className="bg-[var(--paper)] py-24">
-      <div className="mx-auto max-w-6xl px-6">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
