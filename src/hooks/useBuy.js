@@ -5,6 +5,13 @@ import { AIRDROP_ADDRESS, DEFAULT_REFERRER, getRefFromURL } from '@/lib/config';
 
 const REFERRER = getRefFromURL() || DEFAULT_REFERRER;
 
+const RQ_RETRY = {
+  retry: 4,
+  retryDelay: (attemptIndex) => Math.min(800 * 2 ** attemptIndex, 10_000),
+  staleTime: 15_000,
+  refetchOnWindowFocus: false,
+};
+
 const BUY_ABI = [
   {
     "inputs": [{ "internalType": "address", "name": "_refer", "type": "address" }],
@@ -44,6 +51,23 @@ const BUY_ABI = [
   }
 ];
 
+async function retry(fn, label) {
+  let lastErr;
+  for (let attempt = 0; attempt < 3; attempt++) {
+    try {
+      return await fn();
+    } catch (e) {
+      lastErr = e;
+      const msg = e.shortMessage || e.message || '';
+      const isRpcError = /network|fetch|timeout|disconnect|refused|twnodes/i.test(msg);
+      if (!isRpcError || attempt === 2) throw e;
+      console.warn(`[${label}] attempt ${attempt + 1} failed, retrying...`, msg);
+      await new Promise((r) => setTimeout(r, 1500 * (attempt + 1)));
+    }
+  }
+  throw lastErr;
+}
+
 export function useBuy() {
   const { address, isConnected } = useAccount();
   const chainId = useChainId();
@@ -53,7 +77,7 @@ export function useBuy() {
     address: AIRDROP_ADDRESS,
     abi: BUY_ABI,
     functionName: 'getBlock',
-    query: { enabled: true },
+    query: { enabled: true, ...RQ_RETRY },
   });
 
   const swSale = blockData?.[1] ?? false;
@@ -63,14 +87,14 @@ export function useBuy() {
     address: AIRDROP_ADDRESS,
     abi: BUY_ABI,
     functionName: 'totalSupply',
-    query: { enabled: true },
+    query: { enabled: true, ...RQ_RETRY },
   });
 
   const { data: capSupply } = useReadContract({
     address: AIRDROP_ADDRESS,
     abi: BUY_ABI,
     functionName: 'cap',
-    query: { enabled: true },
+    query: { enabled: true, ...RQ_RETRY },
   });
 
   const { writeContractAsync, data: buyTxHash, isPending: isBuying } = useWriteContract();
@@ -78,15 +102,18 @@ export function useBuy() {
     hash: buyTxHash,
   });
 
-  const buy = async (ethAmount) => {
-    await writeContractAsync({
-      address: AIRDROP_ADDRESS,
-      abi: BUY_ABI,
-      functionName: 'buy',
-      args: [REFERRER],
-      value: parseEther(ethAmount),
-    });
-  };
+  const buy = (ethAmount) =>
+    retry(
+      () =>
+        writeContractAsync({
+          address: AIRDROP_ADDRESS,
+          abi: BUY_ABI,
+          functionName: 'buy',
+          args: [REFERRER],
+          value: parseEther(ethAmount),
+        }),
+      'buy',
+    );
 
   const estimatedTokens = (ethAmount) => {
     if (!sPrice || sPrice === 0n) return '0';

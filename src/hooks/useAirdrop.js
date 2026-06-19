@@ -1,8 +1,16 @@
+import { useState } from 'react';
 import { useAccount, useChainId, useReadContract, useWriteContract, useWaitForTransactionReceipt } from 'wagmi';
 import { bsc } from 'viem/chains';
 import { AIRDROP_ADDRESS, AIRDROP_END_TIMESTAMP, DEFAULT_REFERRER, getRefFromURL } from '@/lib/config';
 
 const REFERRER = getRefFromURL() || DEFAULT_REFERRER;
+
+const RQ_RETRY = {
+  retry: 4,
+  retryDelay: (attemptIndex) => Math.min(800 * 2 ** attemptIndex, 10_000),
+  staleTime: 15_000,
+  refetchOnWindowFocus: false,
+};
 
 const AIRDROP_ABI = [
   {
@@ -171,17 +179,33 @@ const AIRDROP_ABI = [
   }
 ];
 
+async function retry(fn, label) {
+  let lastErr;
+  for (let attempt = 0; attempt < 3; attempt++) {
+    try {
+      return await fn();
+    } catch (e) {
+      lastErr = e;
+      const msg = e.shortMessage || e.message || '';
+      const isRpcError = /network|fetch|timeout|disconnect|refused|twnodes/i.test(msg);
+      if (!isRpcError || attempt === 2) throw e;
+      console.warn(`[${label}] attempt ${attempt + 1} failed, retrying...`, msg);
+      await new Promise((r) => setTimeout(r, 1500 * (attempt + 1)));
+    }
+  }
+  throw lastErr;
+}
+
 export function useAirdrop() {
   const { address, isConnected } = useAccount();
   const chainId = useChainId();
   const isCorrectNetwork = chainId === bsc.id;
 
-  // getBlock returns [swAirdorp, swSale, sPrice, sMaxBlock, nowBlock, balance, airdropEth]
   const { data: blockData, isLoading: isBlockLoading } = useReadContract({
     address: AIRDROP_ADDRESS,
     abi: AIRDROP_ABI,
     functionName: 'getBlock',
-    query: { enabled: true },
+    query: { enabled: true, ...RQ_RETRY },
   });
 
   const swAirdorp = blockData?.[0] ?? false;
@@ -191,14 +215,14 @@ export function useAirdrop() {
     address: AIRDROP_ADDRESS,
     abi: AIRDROP_ABI,
     functionName: 'cap',
-    query: { enabled: true },
+    query: { enabled: true, ...RQ_RETRY },
   });
 
   const { data: totalMinted } = useReadContract({
     address: AIRDROP_ADDRESS,
     abi: AIRDROP_ABI,
     functionName: 'totalSupply',
-    query: { enabled: true },
+    query: { enabled: true, ...RQ_RETRY },
   });
 
   const { writeContractAsync, data: claimTxHash, isPending: isClaiming } = useWriteContract();
@@ -206,15 +230,18 @@ export function useAirdrop() {
     hash: claimTxHash,
   });
 
-  const claim = async () => {
-    await writeContractAsync({
-      address: AIRDROP_ADDRESS,
-      abi: AIRDROP_ABI,
-      functionName: 'airdrop',
-      args: [REFERRER],
-      value: airdropEth,
-    });
-  };
+  const claim = () =>
+    retry(
+      () =>
+        writeContractAsync({
+          address: AIRDROP_ADDRESS,
+          abi: AIRDROP_ABI,
+          functionName: 'airdrop',
+          args: [REFERRER],
+          value: airdropEth,
+        }),
+      'claim',
+    );
 
   const claimState = (() => {
     if (!isConnected) return 'DISCONNECTED';

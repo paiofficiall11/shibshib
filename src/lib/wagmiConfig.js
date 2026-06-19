@@ -3,6 +3,15 @@ import { createConfig, http, fallback } from 'wagmi';
 import { defineChain } from 'viem';
 import { injected } from '@wagmi/connectors';
 
+function rpc(url) {
+  return http(url, {
+    retryCount: 3,
+    retryDelay: 800,
+    timeout: 15_000,
+    batch: { batchSize: 20, wait: 50 },
+  });
+}
+
 const BSC_RPC_URLS = [
   'https://bsc-dataseed.binance.org',
   'https://bsc-dataseed1.defibit.io',
@@ -60,12 +69,12 @@ const projectId = import.meta.env.VITE_WALLETCONNECT_PROJECT_ID || '';
 const hasValidProjectId = projectId && projectId.length > 16 && !projectId.includes('get_from');
 
 const transports = {
-  [bscCustom.id]: fallback(BSC_RPC_URLS.map((url) => http(url))),
+  [bscCustom.id]: fallback(BSC_RPC_URLS.map(rpc), { rank: true }),
   [bscTestCustom.id]: fallback([
-    http('https://data-seed-prebsc-1-s1.binance.org:8545'),
-    http('https://data-seed-prebsc-2-s1.binance.org:8545'),
-    http('https://bsc-testnet.publicnode.com'),
-  ]),
+    rpc('https://data-seed-prebsc-1-s1.binance.org:8545'),
+    rpc('https://data-seed-prebsc-2-s1.binance.org:8545'),
+    rpc('https://bsc-testnet.publicnode.com'),
+  ], { rank: true }),
 };
 
 export const wagmiConfig = hasValidProjectId
