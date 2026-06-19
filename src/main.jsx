@@ -6,7 +6,6 @@ import { RainbowKitProvider, lightTheme } from '@rainbow-me/rainbowkit';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { Toaster } from 'react-hot-toast';
 import { wagmiConfig } from '@/lib/wagmiConfig';
-import { ToastProvider } from '@/components/ui/Toast';
 
 import '@rainbow-me/rainbowkit/styles.css';
 import '@fontsource/syne/600.css';
@@ -37,9 +36,7 @@ createRoot(document.getElementById('root')).render(
           })}
         >
           <TooltipProvider>
-            <ToastProvider>
-              <App />
-            </ToastProvider>
+            <App />
             <Toaster
               position="bottom-right"
               toastOptions={{
