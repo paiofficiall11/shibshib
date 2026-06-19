@@ -241,6 +241,11 @@ body {
   }
 }
 
+@keyframes blink-live {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
 /* Accordion (base-ui Panel) open/close — keyframes referenced by the FAQ. */
 @keyframes accordion-down {
   from {

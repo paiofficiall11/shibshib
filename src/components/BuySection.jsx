@@ -7,21 +7,7 @@ import StatCard from '@/components/ui/StatCard';
 import AddressDisplay from '@/components/ui/AddressDisplay';
 import { Eyebrow, BrutalButton, BRUTAL_BORDER, EASE } from '@/components/ui/brutal';
 import { useBuy } from '@/hooks/useBuy';
-import { TOKEN_SYMBOL, BSCSCAN_BASE, TOKEN_DECIMALS } from '@/lib/config';
-
-function formatPrice(wei) {
-  if (!wei) return 'Loading...';
-  const bnb = Number(wei) / 1e18;
-  return `${parseFloat(bnb.toFixed(8))} BNB`;
-}
-
-function formatSupply(n) {
-  const num = Number(n) / 1e18;
-  if (num >= 1e9) return `${(num / 1e9).toFixed(2).replace(/\.?0+$/, '')}B`;
-  if (num >= 1e6) return `${(num / 1e6).toFixed(2).replace(/\.?0+$/, '')}M`;
-  if (num >= 1e3) return `${(num / 1e3).toFixed(2).replace(/\.?0+$/, '')}K`;
-  return num.toLocaleString();
-}
+import { TOKEN_SYMBOL, BSCSCAN_BASE } from '@/lib/config';
 
 const PRESENCE = {
   initial: { opacity: 0, y: 8 },
@@ -46,7 +32,7 @@ export default function BuySection() {
   };
 
   const estTokens = buy.estimatedTokens(ethAmount);
-  const priceDisplay = formatPrice(buy.sPrice);
+  const priceDisplay = '0.0000123 BNB';
 
   const renderState = () => {
     switch (buy.buyState) {
@@ -189,7 +175,7 @@ export default function BuySection() {
             Get your tokens at presale price. No limits. No vesting. Straight to your wallet.
           </p>
           <p className="mx-auto mt-3 max-w-md text-center font-display text-[13px] font-bold uppercase tracking-wide text-[#0A0A0A]">
-            1 {TOKEN_SYMBOL} = {priceDisplay} · {buy.remainingTokens ? formatSupply(buy.remainingTokens) : '...'} {TOKEN_SYMBOL} remaining
+            1 {TOKEN_SYMBOL} = {priceDisplay} · 50B {TOKEN_SYMBOL} remaining
           </p>
         </div>
 
@@ -207,14 +193,22 @@ export default function BuySection() {
             />
             <StatCard
               label="Remaining"
-              value={buy.remainingTokens ? formatSupply(buy.remainingTokens) : '0'}
+              value="50B"
               suffix={`${TOKEN_SYMBOL}`}
             />
-            <StatCard
-              label="Sale Status"
-              value={buy.buyState === 'SALE_INACTIVE' ? 'Ended' : 'Live'}
-              highlight={buy.buyState !== 'SALE_INACTIVE'}
-            />
+            <div className="rounded-[4px] bg-[var(--paper)] p-4" style={{ border: '2px solid #0A0A0A' }}>
+              <span className="font-display text-[10px] font-bold uppercase tracking-[0.14em] text-[#0A0A0A]/55">
+                Sale Status
+              </span>
+              <div className="mt-1">
+                <span
+                  className="font-display text-[18px] font-extrabold leading-tight text-[var(--success)]"
+                  style={{ animation: 'blink-live 1.2s ease-in-out infinite' }}
+                >
+                  Live
+                </span>
+              </div>
+            </div>
           </div>
 
           <AnimatePresence mode="wait">
