@@ -188,6 +188,9 @@ export default function BuySection() {
           <p className="mx-auto mt-4 max-w-md text-[15px] text-[#0A0A0A]/65">
             Get your tokens at presale price. No limits. No vesting. Straight to your wallet.
           </p>
+          <p className="mx-auto mt-3 max-w-md text-center font-display text-[13px] font-bold uppercase tracking-wide text-[#0A0A0A]">
+            1 {TOKEN_SYMBOL} = {priceDisplay} · {buy.remainingTokens ? formatSupply(buy.remainingTokens) : '...'} {TOKEN_SYMBOL} remaining
+          </p>
         </div>
 
         <motion.div
