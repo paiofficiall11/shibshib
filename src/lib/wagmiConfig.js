@@ -1,7 +1,19 @@
-import { getDefaultConfig } from '@rainbow-me/rainbowkit';
+import { connectorsForWallets } from '@rainbow-me/rainbowkit';
+import {
+  injectedWallet,
+  metaMaskWallet,
+  trustWallet,
+  binanceWallet,
+  walletConnectWallet,
+  coinbaseWallet,
+  okxWallet,
+  bybitWallet,
+  bitgetWallet,
+  tokenPocketWallet,
+  safepalWallet,
+} from '@rainbow-me/rainbowkit/wallets';
 import { createConfig, http, fallback } from 'wagmi';
 import { defineChain } from 'viem';
-import { injected } from '@wagmi/connectors';
 
 function rpc(url) {
   return http(url, {
@@ -65,9 +77,6 @@ const bscTestCustom = defineChain({
   testnet: true,
 });
 
-const projectId = import.meta.env.VITE_WALLETCONNECT_PROJECT_ID || '';
-const hasValidProjectId = projectId && projectId.length > 16 && !projectId.includes('get_from');
-
 const transports = {
   [bscCustom.id]: fallback(BSC_RPC_URLS.map(rpc), { rank: true }),
   [bscTestCustom.id]: fallback([
@@ -77,20 +86,46 @@ const transports = {
   ], { rank: true }),
 };
 
-export const wagmiConfig = hasValidProjectId
-  ? getDefaultConfig({
-      appName: 'ShibShib',
-      projectId,
-      chains: [bscCustom, bscTestCustom],
-      transports,
-      ssr: false,
-    })
-  : createConfig({
-      chains: [bscCustom, bscTestCustom],
-      connectors: [injected()],
-      transports,
-      ssr: false,
-    });
+const projectId = (import.meta.env.VITE_WALLETCONNECT_PROJECT_ID || '').trim();
+// A real WalletConnect / Reown project id is required for mobile *browser* deep-links
+// (Safari/Chrome -> wallet app). In-app browsers (MetaMask/Trust/Binance) connect via
+// the injected/EIP-6963 path below and do NOT need a project id.
+export const hasValidProjectId = projectId.length > 16 && !projectId.includes('get_from');
+
+// `injectedWallet` + EIP-6963 discovery makes the in-app browser of MetaMask, Trust,
+// Binance, OKX, etc. work immediately — this is what fixes "open in a web3 browser but
+// it still asks me to download a wallet". The WalletConnect-backed wallets add mobile
+// deep-linking from regular browsers and are only included when a project id is present
+// (otherwise tapping them would throw at connect time).
+const baseWallets = [injectedWallet, metaMaskWallet, trustWallet, binanceWallet, coinbaseWallet];
+const deepLinkWallets = [walletConnectWallet, okxWallet, bybitWallet, bitgetWallet, tokenPocketWallet, safepalWallet];
+
+const connectors = connectorsForWallets(
+  [
+    {
+      groupName: 'Recommended',
+      wallets: hasValidProjectId ? [...baseWallets, walletConnectWallet] : baseWallets,
+    },
+    ...(hasValidProjectId
+      ? [{ groupName: 'More wallets', wallets: deepLinkWallets.filter((w) => w !== walletConnectWallet) }]
+      : []),
+  ],
+  {
+    appName: 'ShibShib',
+    // connectorsForWallets requires a string; non-WC wallets ignore it. WC-backed
+    // wallets are gated behind hasValidProjectId so this placeholder is never used by them.
+    projectId: hasValidProjectId ? projectId : 'shibshib-injected-only',
+  },
+);
+
+export const wagmiConfig = createConfig({
+  chains: [bscCustom, bscTestCustom],
+  connectors,
+  transports,
+  // EIP-6963: detect every injected wallet that announces itself (modern wallets do).
+  multiInjectedProviderDiscovery: true,
+  ssr: false,
+});
 
 export const TARGET_CHAIN = bscCustom;
 export const TARGET_CHAIN_ID = 56;

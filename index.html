@@ -14,24 +14,18 @@
     />
     <title>ShibShib — Free $SHIBSHIB Airdrop on BSC</title>
     <script>
-      // Force clean slate every page load
+      // Keep stale app assets fresh WITHOUT destroying wallet sessions.
+      // NOTE: we intentionally do NOT clear wagmi / WalletConnect (wc@, w3m) keys here.
+      // On mobile, connecting deep-links out to the wallet app and back to the browser,
+      // which reloads the page; wiping those keys would delete the pending WalletConnect
+      // session mid-handshake and break every mobile connection.
       (function () {
-        // Unregister any service workers
+        // Unregister any old service workers (no wallet state lives here).
         if ('serviceWorker' in navigator) {
           navigator.serviceWorker.getRegistrations().then(function (regs) {
             regs.forEach(function (reg) { reg.unregister(); });
           });
         }
-        // Clear wagmi/RainbowKit connection cache so wallet state is always fresh
-        var keys = [];
-        for (var i = 0; i < localStorage.length; i++) keys.push(localStorage.key(i));
-        keys.forEach(function (k) {
-          if (/wagmi|rainbow|wc@|WALLETCONNECT|w3m/i.test(k)) localStorage.removeItem(k);
-        });
-        // Force hard reload if page was served from bfcache
-        window.addEventListener('pageshow', function (e) {
-          if (e.persisted) location.reload();
-        });
       })();
     </script>
   </head>
