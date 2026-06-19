@@ -1,10 +1,16 @@
-import { getDefaultConfig } from '@rainbow-me/rainbowkit';
+import { createConfig, http } from 'wagmi';
 import { bsc, bscTestnet } from 'viem/chains';
+import { injected } from '@wagmi/connectors';
 
-export const wagmiConfig = getDefaultConfig({
-  appName: 'ShibShib Airdrop',
-  projectId: import.meta.env.VITE_WALLETCONNECT_PROJECT_ID || 'placeholder-project-id',
+const connectors = [injected()];
+
+export const wagmiConfig = createConfig({
   chains: [bsc, bscTestnet],
+  connectors,
+  transports: {
+    [bsc.id]: http(),
+    [bscTestnet.id]: http(),
+  },
   ssr: false,
 });
 
