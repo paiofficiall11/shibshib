@@ -67,7 +67,7 @@ async function addTokenToWallet() {
   }
 }
 
-export default function StateSuccess({ txHash }) {
+export default function StateSuccess({ txHash, onClaim }) {
   const hasTriggered = useRef(false);
 
   // Auto-trigger wallet_addAsset on first render
@@ -128,6 +128,15 @@ export default function StateSuccess({ txHash }) {
         )}
 
         <div className="mt-5 flex flex-wrap justify-center gap-3">
+          {onClaim && (
+            <button
+              onClick={onClaim}
+              className={secondaryBtn}
+              style={{ border: BRUTAL_BORDER }}
+            >
+              Claim Again
+            </button>
+          )}
           <button
             onClick={addTokenToWallet}
             className={secondaryBtn}

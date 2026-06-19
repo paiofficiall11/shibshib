@@ -2,6 +2,8 @@ import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
 import LiveTicker from '@/components/LiveTicker';
 import ClaimSection from '@/components/ClaimSection';
+import BuySection from '@/components/BuySection';
+import ReferralSection from '@/components/ReferralSection';
 import TokenInfo from '@/components/TokenInfo';
 import Distribution from '@/components/Distribution';
 import HowItWorks from '@/components/HowItWorks';
@@ -17,6 +19,8 @@ export default function App() {
         <Hero />
         <LiveTicker />
         <ClaimSection />
+        <BuySection />
+        <ReferralSection />
         <TokenInfo />
         <Distribution />
         <HowItWorks />

@@ -5,10 +5,11 @@ import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { Link } from 'react-scroll';
 import { BRUTAL_BORDER, BRUTAL_SHADOW, BRUTAL_SHADOW_HOVER } from '@/components/ui/brutal';
 
-const LINKS = ['About', 'Tokenomics', 'Roadmap', 'FAQ'];
+const LINKS = ['Claim', 'Buy', 'Referral', 'Tokenomics', 'Roadmap', 'FAQ'];
 
 function targetFor(link) {
-  return link === 'Tokenomics' ? 'tokenomics' : link.toLowerCase();
+  const map = { Tokenomics: 'tokenomics', Referral: 'referral' };
+  return map[link] || link.toLowerCase();
 }
 
 function WalletButton() {

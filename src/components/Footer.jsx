@@ -5,10 +5,11 @@ import { SOCIAL_LINKS, TOKEN_ADDRESS } from '@/lib/config';
 import { BRUTAL_BORDER } from '@/components/ui/brutal';
 
 const quickLinks = [
-  ['About', 'about'],
+  ['Claim Airdrop', 'claim'],
+  ['Buy $SHIBSHIB', 'buy'],
+  ['Referral', 'referral'],
   ['Tokenomics', 'tokenomics'],
   ['Roadmap', 'roadmap'],
-  ['Claim Airdrop', 'claim'],
   ['FAQ', 'faq'],
 ];
 

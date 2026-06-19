@@ -62,36 +62,13 @@ export default function ClaimSection() {
       case 'CLAIMING':
         return <StateClaiming key="claiming" />;
       case 'SUCCESS':
-        return <StateSuccess key="success" txHash={claimTx} />;
+        return <StateSuccess key="success" txHash={claimTx} onClaim={handleClaim} />;
       case 'ERROR':
         return <StateError key="error" error={error} onRetry={handleRetry} />;
       default:
         return <StateDisconnected key="unknown" />;
     }
   };
-
-  if (airdrop.claimState === 'CLAIMED') {
-    return (
-      <section id="claim" className="bg-[var(--paper)] py-24">
-        <div className="mx-auto max-w-2xl px-4 sm:px-6">
-          <div className="claim-card flex flex-col items-center px-8 py-14 text-center">
-            <div
-              className="mb-4 flex h-14 w-14 items-center justify-center rounded-[4px] bg-[var(--success-sub)]"
-              style={{ border: BRUTAL_BORDER }}
-            >
-              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--success)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <polyline points="20 6 9 17 4 12" />
-              </svg>
-            </div>
-            <h3 className="font-display text-[24px] font-extrabold uppercase text-[#0A0A0A]">Already claimed</h3>
-            <p className="mt-2 text-[14px] text-[#0A0A0A]/65">
-              This wallet has already claimed its airdrop allocation.
-            </p>
-          </div>
-        </div>
-      </section>
-    );
-  }
 
   return (
     <section id="claim" className="grid-lines bg-[var(--paper)] py-24">
