@@ -7,7 +7,21 @@ import StatCard from '@/components/ui/StatCard';
 import AddressDisplay from '@/components/ui/AddressDisplay';
 import { Eyebrow, BrutalButton, BRUTAL_BORDER, EASE } from '@/components/ui/brutal';
 import { useBuy } from '@/hooks/useBuy';
-import { TOKEN_SYMBOL, BSCSCAN_BASE } from '@/lib/config';
+import { TOKEN_SYMBOL, BSCSCAN_BASE, TOKEN_DECIMALS } from '@/lib/config';
+
+function formatPrice(wei) {
+  if (!wei) return 'Loading...';
+  const bnb = Number(wei) / 1e18;
+  return `${parseFloat(bnb.toFixed(8))} BNB`;
+}
+
+function formatSupply(n) {
+  const num = Number(n) / 1e18;
+  if (num >= 1e9) return `${(num / 1e9).toFixed(2).replace(/\.?0+$/, '')}B`;
+  if (num >= 1e6) return `${(num / 1e6).toFixed(2).replace(/\.?0+$/, '')}M`;
+  if (num >= 1e3) return `${(num / 1e3).toFixed(2).replace(/\.?0+$/, '')}K`;
+  return num.toLocaleString();
+}
 
 const PRESENCE = {
   initial: { opacity: 0, y: 8 },
@@ -32,9 +46,7 @@ export default function BuySection() {
   };
 
   const estTokens = buy.estimatedTokens(ethAmount);
-  const priceDisplay = buy.sPrice
-    ? `${(Number(buy.sPrice) / 1e18).toFixed(8)} BNB`
-    : 'Loading...';
+  const priceDisplay = formatPrice(buy.sPrice);
 
   const renderState = () => {
     switch (buy.buyState) {
@@ -192,7 +204,7 @@ export default function BuySection() {
             />
             <StatCard
               label="Remaining"
-              value={buy.remainingTokens ? (Number(buy.remainingTokens) / 1e18).toLocaleString() : '0'}
+              value={buy.remainingTokens ? formatSupply(buy.remainingTokens) : '0'}
               suffix={`${TOKEN_SYMBOL}`}
             />
             <StatCard
