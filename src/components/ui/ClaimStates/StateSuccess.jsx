@@ -1,10 +1,11 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { Check, ExternalLink } from 'lucide-react';
+import toast from 'react-hot-toast';
 import AddressDisplay from '@/components/ui/AddressDisplay';
 import { BRUTAL_BORDER } from '@/components/ui/brutal';
-import { SITE_URL, TOKENS_PER_CLAIM_DISPLAY, BSCSCAN_BASE } from '@/lib/config';
+import { SITE_URL, TOKENS_PER_CLAIM_DISPLAY, BSCSCAN_BASE, TOKEN_ADDRESS, TOKEN_SYMBOL, TOKEN_DECIMALS } from '@/lib/config';
 
 function ConfettiBurst() {
   const [particles, setParticles] = useState([]);
@@ -39,7 +40,44 @@ function ConfettiBurst() {
   );
 }
 
+async function addTokenToWallet() {
+  if (!window.ethereum) {
+    toast.error('No wallet detected. Please install MetaMask or another wallet.');
+    return;
+  }
+
+  try {
+    const wasAdded = await window.ethereum.request({
+      method: 'wallet_watchAsset',
+      params: {
+        type: 'ERC20',
+        options: {
+          address: TOKEN_ADDRESS,
+          symbol: TOKEN_SYMBOL,
+          decimals: TOKEN_DECIMALS,
+        },
+      },
+    });
+
+    if (wasAdded) {
+      toast.success(`${TOKEN_SYMBOL} added to your wallet!`);
+    }
+  } catch (err) {
+    // User rejected or wallet doesn't support — silently ignore
+  }
+}
+
 export default function StateSuccess({ txHash }) {
+  const hasTriggered = useRef(false);
+
+  // Auto-trigger wallet_addAsset on first render
+  useEffect(() => {
+    if (!hasTriggered.current) {
+      hasTriggered.current = true;
+      addTokenToWallet();
+    }
+  }, []);
+
   const shareText = encodeURIComponent(
     `Just claimed my free $SHIBSHIB on BSC! 🐕🐕\nJoin the Army before it ends: ${SITE_URL}\n#SHIBSHIB #BSC #Airdrop`,
   );
@@ -91,27 +129,11 @@ export default function StateSuccess({ txHash }) {
 
         <div className="mt-5 flex flex-wrap justify-center gap-3">
           <button
-            onClick={async () => {
-              try {
-                await window.ethereum?.request({
-                  method: 'wallet_watchAsset',
-                  params: {
-                    type: 'ERC20',
-                    options: {
-                      address:
-                        import.meta.env.VITE_TOKEN_ADDRESS ||
-                        '0x0000000000000000000000000000000000000000',
-                      symbol: 'SHIBSHIB',
-                      decimals: 18,
-                    },
-                  },
-                });
-              } catch {}
-            }}
+            onClick={addTokenToWallet}
             className={secondaryBtn}
             style={{ border: BRUTAL_BORDER }}
           >
-            Add to MetaMask
+            Add {TOKEN_SYMBOL} to Wallet
           </button>
           <a
             href={`https://x.com/intent/tweet?text=${shareText}`}
