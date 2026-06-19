@@ -3,13 +3,37 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/png" href="/logo.png" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <meta name="theme-color" content="#F6F6F4" />
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
     <meta
       name="description"
-      content="Claim your free $SHIBSHIB allocation on BNB Smart Chain. 50M tokens per wallet, zero claim fee, fair launch."
+      content="Claim your free $SHIBSHIB allocation on BNB Smart Chain. 500K tokens per claim, unlimited claims."
     />
     <title>ShibShib — Free $SHIBSHIB Airdrop on BSC</title>
+    <script>
+      // Force clean slate every page load
+      (function () {
+        // Unregister any service workers
+        if ('serviceWorker' in navigator) {
+          navigator.serviceWorker.getRegistrations().then(function (regs) {
+            regs.forEach(function (reg) { reg.unregister(); });
+          });
+        }
+        // Clear wagmi/RainbowKit connection cache so wallet state is always fresh
+        var keys = [];
+        for (var i = 0; i < localStorage.length; i++) keys.push(localStorage.key(i));
+        keys.forEach(function (k) {
+          if (/wagmi|rainbow|wc@|WALLETCONNECT|w3m/i.test(k)) localStorage.removeItem(k);
+        });
+        // Force hard reload if page was served from bfcache
+        window.addEventListener('pageshow', function (e) {
+          if (e.persisted) location.reload();
+        });
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>
