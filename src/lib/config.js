@@ -6,6 +6,10 @@ export const REFERRAL_BASE = import.meta.env.VITE_REFERRAL_BASE || 'https://shib
 export const DEFAULT_REFERRER = '0x7286bdc5b1f67211e56dfdc93327c242829d8906';
 export const TOKEN_DECIMALS = 18;
 export const TOKEN_SYMBOL = '$SHIBSHIB';
+// Presale price: 1 token = this many BNB. Single source of truth for the buy form
+// display and its live BNB -> token conversion math.
+export const BUY_PRICE_BNB = 0.0000123;
+export const BUY_PRICE_DISPLAY = '0.0000123 BNB';
 export const TOKENS_PER_CLAIM_DISPLAY = '500,000';
 export const TOTAL_AIRDROP_DISPLAY = '100,000,000,000';
 export const BSCSCAN_BASE = 'https://bscscan.com';

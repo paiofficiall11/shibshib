@@ -7,7 +7,7 @@ import StatCard from '@/components/ui/StatCard';
 import AddressDisplay from '@/components/ui/AddressDisplay';
 import { Eyebrow, BrutalButton, BRUTAL_BORDER, EASE } from '@/components/ui/brutal';
 import { useBuy } from '@/hooks/useBuy';
-import { TOKEN_SYMBOL, BSCSCAN_BASE } from '@/lib/config';
+import { TOKEN_SYMBOL, BSCSCAN_BASE, BUY_PRICE_DISPLAY } from '@/lib/config';
 
 const PRESENCE = {
   initial: { opacity: 0, y: 8 },
@@ -32,7 +32,7 @@ export default function BuySection() {
   };
 
   const estTokens = buy.estimatedTokens(ethAmount);
-  const priceDisplay = '0.0000123 BNB';
+  const priceDisplay = BUY_PRICE_DISPLAY;
 
   const renderState = () => {
     switch (buy.buyState) {

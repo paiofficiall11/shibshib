@@ -1,9 +1,12 @@
 import { useAccount, useChainId, useReadContract, useWriteContract, useWaitForTransactionReceipt } from 'wagmi';
 import { bsc } from 'viem/chains';
-import { parseEther } from 'viem';
-import { AIRDROP_ADDRESS, DEFAULT_REFERRER, getRefFromURL } from '@/lib/config';
+import { parseEther, isAddress, getAddress, zeroAddress } from 'viem';
+import { AIRDROP_ADDRESS, DEFAULT_REFERRER, getRefFromURL, BUY_PRICE_BNB } from '@/lib/config';
 
-const REFERRER = getRefFromURL() || DEFAULT_REFERRER;
+// Prefer a valid ?ref= address, else the project default. Validated so a malformed
+// referral param can never make the on-chain buy() revert.
+const RAW_REFERRER = getRefFromURL() || DEFAULT_REFERRER;
+const REFERRER = isAddress(RAW_REFERRER) ? getAddress(RAW_REFERRER) : DEFAULT_REFERRER;
 
 const RQ_RETRY = {
   retry: 4,
@@ -73,14 +76,13 @@ export function useBuy() {
   const chainId = useChainId();
   const isCorrectNetwork = chainId === bsc.id;
 
-  const { data: blockData, isLoading: isBlockLoading } = useReadContract({
+  const { data: blockData } = useReadContract({
     address: AIRDROP_ADDRESS,
     abi: BUY_ABI,
     functionName: 'getBlock',
     query: { enabled: true, ...RQ_RETRY },
   });
 
-  const swSale = blockData?.[1] ?? false;
   const sPrice = blockData?.[2] ?? 0n;
 
   const { data: totalMinted } = useReadContract({
@@ -102,31 +104,44 @@ export function useBuy() {
     hash: buyTxHash,
   });
 
-  const buy = (ethAmount) =>
-    retry(
+  const buy = (ethAmount) => {
+    const amount = parseFloat(ethAmount);
+    if (!Number.isFinite(amount) || amount <= 0) {
+      const err = new Error('Enter a valid BNB amount');
+      err.shortMessage = 'Enter a valid BNB amount';
+      throw err;
+    }
+    // Many of these sale contracts revert on self-referral; fall back to the
+    // zero address (no referrer) when the buyer would refer themselves.
+    const refer =
+      address && getAddress(address) === REFERRER ? zeroAddress : REFERRER;
+
+    return retry(
       () =>
         writeContractAsync({
           address: AIRDROP_ADDRESS,
           abi: BUY_ABI,
           functionName: 'buy',
-          args: [REFERRER],
-          value: parseEther(ethAmount),
+          args: [refer],
+          value: parseEther(String(ethAmount).trim()),
+          chainId: bsc.id,
         }),
       'buy',
     );
+  };
 
+  // Live conversion is driven by the fixed presale price so the figure is always
+  // real, regardless of whether the on-chain sPrice read has resolved.
   const estimatedTokens = (ethAmount) => {
-    if (!sPrice || sPrice === 0n) return '0';
-    const ethWei = parseEther(ethAmount || '0');
-    return String(ethWei / sPrice);
+    const amount = parseFloat(ethAmount);
+    if (!amount || amount <= 0 || !BUY_PRICE_BNB) return '0';
+    return String(Math.floor(amount / BUY_PRICE_BNB));
   };
 
   const buyState = (() => {
     if (!isConnected) return 'DISCONNECTED';
     if (!isCorrectNetwork) return 'WRONG_NETWORK';
-    if (isBlockLoading) return 'CHECKING';
     if (buySuccess) return 'SUCCESS';
-    if (!swSale) return 'SALE_INACTIVE';
     if (isBuying || isWaitingTx) return 'BUYING';
     return 'AVAILABLE';
   })();
