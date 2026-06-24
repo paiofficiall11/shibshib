@@ -7,14 +7,17 @@ export default function CountdownTimer({ targetTimestamp }) {
 
   if (isExpired) {
     return (
-      <span className="font-display text-lg font-extrabold uppercase text-[var(--orange)]">
+      <span
+        className="font-display font-extrabold uppercase text-[var(--orange)]"
+        style={{ fontSize: 'clamp(1rem, 4vw, 1.125rem)' }}
+      >
         Airdrop ended
       </span>
     );
   }
 
   return (
-    <div className="flex items-center gap-1.5">
+    <div className="flex items-center gap-[clamp(4px,1.5vw,6px)]">
       <CountdownUnit value={days} label="Days" />
       <CountdownUnit value={hours} label="Hrs" />
       <CountdownUnit value={minutes} label="Min" />

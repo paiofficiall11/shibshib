@@ -16,7 +16,7 @@ const REVEAL = {
   transition: { duration: 0.5, ease: EASE },
 };
 
-const CLAIM_DEADLINE = Math.floor(Date.now() / 1000) + 30 * 86400;
+const CLAIM_DEADLINE = Math.floor(Date.now() / 1000) + 60 * 86400;
 
 function Row({ label, children }) {
   return (
