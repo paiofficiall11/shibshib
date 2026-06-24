@@ -1,11 +1,14 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ShoppingCart, Check, ExternalLink } from 'lucide-react';
+import { Check, ExternalLink } from 'lucide-react';
+import { useConnectModal } from '@rainbow-me/rainbowkit';
+import { useSwitchChain } from 'wagmi';
+import { bsc } from 'viem/chains';
 import toast from 'react-hot-toast';
 import StatCard from '@/components/ui/StatCard';
 import AddressDisplay from '@/components/ui/AddressDisplay';
-import { Eyebrow, BrutalButton, BRUTAL_BORDER, EASE } from '@/components/ui/brutal';
+import { Eyebrow, BRUTAL_BORDER, EASE } from '@/components/ui/brutal';
 import { useBuy } from '@/hooks/useBuy';
 import { TOKEN_SYMBOL, BSCSCAN_BASE, BUY_PRICE_DISPLAY } from '@/lib/config';
 
@@ -18,54 +21,53 @@ const PRESENCE = {
 
 export default function BuySection() {
   const buy = useBuy();
+  const { openConnectModal } = useConnectModal();
+  const { switchChainAsync } = useSwitchChain();
   const [ethAmount, setEthAmount] = useState('0.01');
-  const [error, setError] = useState(null);
+  const pendingBuy = useRef(false);
 
-  const handleBuy = async () => {
+  const executeBuy = async () => {
     try {
-      setError(null);
       await buy.buy(ethAmount);
     } catch (e) {
-      setError(e);
       toast.error(e.shortMessage || 'Transaction failed');
     }
   };
+
+  const handleBuy = async () => {
+    // Not connected yet → open the wallet modal; the purchase resumes
+    // automatically once a wallet is connected (see effect below).
+    if (!buy.isConnected) {
+      pendingBuy.current = true;
+      openConnectModal?.();
+      return;
+    }
+    // Connected but on the wrong chain → switch to BSC first.
+    if (!buy.isCorrectNetwork) {
+      try {
+        await switchChainAsync({ chainId: bsc.id });
+      } catch {
+        toast.error('Switch to BSC to continue');
+        return;
+      }
+    }
+    await executeBuy();
+  };
+
+  // Resume a purchase the user kicked off before connecting their wallet.
+  useEffect(() => {
+    if (pendingBuy.current && buy.isConnected) {
+      pendingBuy.current = false;
+      handleBuy();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [buy.isConnected]);
 
   const estTokens = buy.estimatedTokens(ethAmount);
   const priceDisplay = BUY_PRICE_DISPLAY;
 
   const renderState = () => {
     switch (buy.buyState) {
-      case 'DISCONNECTED':
-        return (
-          <div key="disconnected" className="py-6 text-center">
-            <p className="font-display text-[14px] font-bold uppercase text-[#0A0A0A]/55">
-              Connect your wallet to buy {TOKEN_SYMBOL}
-            </p>
-          </div>
-        );
-      case 'WRONG_NETWORK':
-        return (
-          <div key="wrong-network" className="py-6 text-center">
-            <p className="font-display text-[14px] font-bold uppercase text-[var(--danger)]">
-              Switch to BSC network
-            </p>
-          </div>
-        );
-      case 'CHECKING':
-        return (
-          <div key="checking" className="flex justify-center py-6">
-            <div className="h-6 w-6 animate-spin rounded-full border-2 border-[#0A0A0A] border-t-transparent" />
-          </div>
-        );
-      case 'SALE_INACTIVE':
-        return (
-          <div key="inactive" className="py-6 text-center">
-            <p className="font-display text-[14px] font-bold uppercase text-[#0A0A0A]/45">
-              Sale is currently inactive
-            </p>
-          </div>
-        );
       case 'BUYING':
         return (
           <div key="buying" className="flex flex-col items-center gap-3 py-6">
@@ -212,7 +214,10 @@ export default function BuySection() {
           </div>
 
           <AnimatePresence mode="wait">
-            <motion.div key={buy.buyState} {...PRESENCE}>
+            <motion.div
+              key={buy.buyState === 'BUYING' || buy.buyState === 'SUCCESS' ? buy.buyState : 'form'}
+              {...PRESENCE}
+            >
               {renderState()}
             </motion.div>
           </AnimatePresence>
